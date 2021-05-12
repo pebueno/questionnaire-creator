@@ -1,0 +1,87 @@
+<%- include("partials/header"); -%>
+    <form action="/responder" method="post">
+        <h4>
+            <%=title%>?
+        </h4>
+        <label for="Resposta">Responda a pergunta a cima</label>
+        <br>
+        <input type="text" name="respostaQuestionario">
+        <br>
+        <label for="Local">Sua localização é</label>
+        <br>
+        <input type="hidden" class="address" name="LAT">
+        <br>
+        <input type="hidden" class="address" name="LONG">
+        <p id="demo"></p>
+        <br>
+        <input type="hidden" name="perguntaQuestionario" value="<%=title%>">
+        <input type="hidden" value=false name="disponibilidadeQuestionario">
+        <button type="submit">Responder questionário</button>
+    </form>
+    <p>Digite aqui o restante que precisa...</p>
+    <!-- <div id="main">
+        <div id="location" class="sub">
+            <h2>And you are in...</h2>
+            <div class="address"></div>
+        </div>
+    </div> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var address = document.querySelector('.address')
+            if (!navigator.geolocation) {
+                console.log("Geolocation is not supported by your browser");
+                ipLookup();
+            } else {
+                navigator.geolocation.getCurrentPosition(success, error);
+            }
+
+            function success(position) {
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+                reverseGeocodingWithGoogle(longitude, latitude)
+                document.querySelector('input[name="LAT"]').value = latitude;
+                document.querySelector('input[name="LONG"]').value = longitude;
+
+
+            }
+            function error() {
+                console.log("Unable to retrieve your location");
+            }
+            function ipLookup() {
+                fetch('https://extreme-ip-lookup.com/json/')
+                    .then(res => res.json())
+                    .then(response => {
+                        fallbackProcess(response)
+                    })
+                    .catch((data, status) => {
+                        address.innerText = 'We could not find your location'
+                    })
+            }
+
+            function reverseGeocodingWithGoogle(latitude, longitude) {
+                fetch(`https://maps.googleapis.com/maps/api/geocode/json?
+            latlng=${latitude},${longitude}&key={GOOGLE_MAP_KEY}`)
+                    .then(res => res.json())
+                    .then(response => {
+                        processUserData(response)
+                    })
+                    .catch(status => {
+                        ipLookup()
+                    })
+            }
+
+            function processUserData(response) {
+                address.innerText = response.results[0].formatted_address
+            }
+
+            function fallbackProcess(response) {
+                address.innerText = `${response.city}, ${response.country}`
+            }
+
+            var localTime = jstz.determine().name();
+            var serverTime = "Asia/Novosibirsk";
+            document.querySelector('.server').innerText = new Date().toLocaleString("en-US");
+            document.querySelector('.local').innerText = new Date().toLocaleString("pt-BR");
+        });
+    </script>
+    <%- include("partials/footer"); -%>

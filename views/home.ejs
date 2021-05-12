@@ -1,0 +1,82 @@
+<%- include("partials/header") -%>
+
+    <h1>Seja bem vindo!</h1>
+    <br>
+    <a href="/criar">Criar formulario</a>
+
+    <div id="main">
+        <% envios.forEach(function (questionario) { %>
+            <% if (questionario.Disponibilidade===true) {%>
+                <div id="location" class="sub">
+                    <div>
+                        <h2>Titulo</h2>
+                        <span>
+                            <%= questionario.Pergunta %>
+                        </span>
+                    </div>
+                    <div>
+                        <h2>Usuario</h2>
+                        <span>
+                            <%= questionario.Usuario %>
+                        </span>
+                    </div>
+                    <div>
+                        <h2>Data de cadastro</h2>
+                        <span>
+                            <%= questionario.Data_de_cadastro %>
+                        </span>
+                    </div>
+                    <br>
+
+                    <a type="button" href="/questionarios/<%= questionario.Pergunta %>">Responder
+                        questionário</a>
+                </div>
+
+                <% } else { %>
+                    <div id="location" class="sub">
+                        <div>
+                            <h2>Titulo</h2>
+                            <span>
+                                <%= questionario.Pergunta %>
+                            </span>
+                            <h4>Resposta</h4>
+                            <span>
+                                <%= questionario.Resposta %>
+                            </span>
+                        </div>
+                        <div>
+                            <h2>Usuario</h2>
+                            <span>
+                                <%= questionario.Usuario %>
+                            </span>
+                        </div>
+                        <div>
+                            <h2>Data de cadastro</h2>
+                            <span>
+                                <%= questionario.Data_de_cadastro %>
+                            </span>
+                            <h4>Data de resposta</h4>
+                            <span>
+                                <%= questionario.Data %>
+                            </span>
+                        </div>
+                        <div>
+                            <h2>Localização - Lat e Long</h2>
+                            <span>
+                                <% for (let key in questionario) { %>
+                                    <% if (questionario.hasOwnProperty(key)) { %>
+                                        <%= questionario[key].Latitude %>
+                                            <%= questionario[key].Longitude %>
+
+                                                <%}%>
+                                                    <%}%>
+                            </span>
+                        </div>
+                        <br>
+
+                    </div>
+                    <% } %>
+                        <% }) %>
+    </div>
+
+    <%- include("partials/footer") -%>

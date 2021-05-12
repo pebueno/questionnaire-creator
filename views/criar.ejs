@@ -1,0 +1,25 @@
+<%- include("partials/header") -%>
+
+  <body>
+    <h4>Crie seu questionário.</h4>
+    <form action="/criar" method="post">
+      <label for="Título">Crie um título</label>
+      <br>
+      <input type="text" name="perguntaQuestionario">
+      <br>
+      <label for="Título">Crie um título</label>
+      <br>
+      <select id="cars" name="usuarioQuestionario">
+        <option value="Pedro">Pedro</option>
+        <option value="Isabela">Isabela</option>
+        <option value="Fernando">Fernando</option>
+        <option value="Stella">Stella</option>
+      </select>
+      <!-- <label for="Usuário">Qual é o usuário</label>
+    <br>
+    <input type="text" name="usuarioQuestionario">
+    <br> -->
+      <button type="submit">Criar questionário</button>
+    </form>
+
+    <%- include("partials/footer") -%>
