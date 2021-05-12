@@ -1,0 +1,30 @@
+h1 {
+  text-align: center;
+}
+#main {
+  max-width: 900px;
+  display: table;
+  margin-left: 30vw;
+  margin-top: 10vh;
+}
+
+#main .sub {
+  display: block;
+  float: left;
+  min-width: 300px;
+  min-height: 300px;
+  border: 0.5px solid #bbb;
+  border-radius: 4px;
+  padding: 15px;
+}
+#main .sub h2 {
+  font-size: 20px;
+}
+#main #time {
+  margin-right: 5vw;
+}
+
+#main #time div {
+  display: block;
+  min-height: 120px;
+}
