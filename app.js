@@ -2,27 +2,24 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 
-const homeStartingContent = {
-  Pergunta: "Provas de matematica",
-  Usuario: "Pedro",
-  Data_de_cadastro: "12/5/2021, 08:02:05",
-};
-
 const envios = [
   {
-    Pergunta: "Provas de matematica",
+    Titulo: "Provas de matematica",
+    Pergunta: "Calculo 2 foi dificil?",
     Usuario: "Pedro",
     Data_de_cadastro: "12/5/2021, 08:02:05",
     Disponibilidade: true,
   },
   {
-    Pergunta: "Provas de UX-UI",
+    Titulo: "Design UX-UI",
+    Pergunta: "O que fazer para o usuario se sentir confortavel?",
     Usuario: "Fernanda",
     Data_de_cadastro: "12/5/2021, 08:22:31",
     Disponibilidade: true,
   },
   {
-    Pergunta: "Versionamento em dia",
+    Titulo: "Versionamento em dia",
+    Pergunta: "Quais sao as melhores praticas para isso?",
     Usuario: "Isabela",
     Data_de_cadastro: "12/5/2021, 08:27:03",
     Disponibilidade: true,
@@ -36,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", function (req, res) {
   res.render("home", {
-    startingContent: homeStartingContent,
     envios: envios,
   });
 });
@@ -46,41 +42,31 @@ app.get("/questionarios", function (req, res) {
 });
 
 app.get("/questionarios/:temp", function (req, res) {
-  const perguntaRequisitado = req.params.temp;
+  const tituloRequisitado = req.params.temp;
 
   envios.forEach(function (questionario) {
-    const perguntaArmazenado = questionario.Pergunta;
-    if (perguntaArmazenado === perguntaRequisitado) {
+    const tituloArmazenado = questionario.Titulo;
+    if (tituloArmazenado === tituloRequisitado) {
       res.render("questionario", {
-        title: questionario.Pergunta,
+        title: questionario.Titulo,
       });
     }
   });
-  // console.log(req.params.Pergunta);
 });
 
 app.get("/criar", function (req, res) {
   res.render("criar");
 });
 
-// app.post("/login", function (req, res) {
-//   var usuario = req.body.usuarioQuestionario;
-//   console.log(usuario);
-//   res.redirect("criar");
-//   app.get("/criar", function (req, res) {
-//     res.render("criar", {
-//       Usuario: usuario,
-//     });
-//   });
-// });
-
 app.post("/criar", function (req, res) {
-  const pergunta = req.body.perguntaQuestionario;
+  const titulo = req.body.tituloQuestionario;
+  // const pergunta = req.body.perguntaQuestionario;
   const usuario = req.body.usuarioQuestionario;
   const data = new Date().toLocaleString("pt-BR");
 
   const questionario = {
-    Pergunta: pergunta,
+    Titulo: titulo,
+    // Pergunta: pergunta,
     Usuario: usuario,
     Data_de_cadastro: data,
     Disponibilidade: true,
@@ -92,14 +78,13 @@ app.post("/criar", function (req, res) {
 });
 
 app.post("/responder", function (req, res) {
-  const pergunta = req.body.perguntaQuestionario;
+  const titulo = req.body.tituloQuestionario;
+  // const pergunta = req.body.perguntaQuestionario;
   const resposta = req.body.respostaQuestionario;
   const data = new Date().toLocaleString("pt-BR");
   const lat = req.body.LAT;
   const long = req.body.LONG;
-  // const disponibilidade = req.body.disponibilidadeQuestionario;
-
-  console.log(resposta);
+  // console.log(resposta);
   const questionarioRespondido = {
     Disponibilidade: false,
     Resposta: resposta,
@@ -111,26 +96,14 @@ app.post("/responder", function (req, res) {
   };
 
   for (index = 0; index < envios.length; index++) {
-    // console.log(envios[index]);
-    if (envios[index].Pergunta === pergunta) {
+    if (envios[index].Titulo === titulo) {
       const newTest = { ...envios[index], ...questionarioRespondido };
-      // envios[index].Disponibilidade = { Disponibilidade: false };
-      // console.log(envios[index].Disponibilidade);
       envios[index] = newTest;
-      // console.log(newTest);
     }
   }
-
-  const jsonData = JSON.stringify(questionarioRespondido);
-  console.log(envios);
-
+  // console.log(envios);
   res.redirect("/");
 });
-// var test = envios.includes("Pedro");
-// if (envios.some((e) => e.Usuario === "Pedro")) {
-//   /* vendors contains the element we're looking for */
-//   console.log("Tem sim");
-// }
 
 app.listen(3000, function () {
   console.log("Servidor rodando em http://localhost:3000");

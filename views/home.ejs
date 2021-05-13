@@ -11,31 +11,41 @@
                     <div>
                         <h2>Titulo</h2>
                         <span>
+                            <%= questionario.Titulo %>
+                        </span>
+                    </div>
+                    <div>
+                        <h4>Pergunta</h4>
+                        <span>
                             <%= questionario.Pergunta %>
                         </span>
                     </div>
                     <div>
-                        <h2>Usuario</h2>
+                        <h4>Usuario</h4>
                         <span>
                             <%= questionario.Usuario %>
                         </span>
                     </div>
                     <div>
-                        <h2>Data de cadastro</h2>
+                        <h4>Data de cadastro</h4>
                         <span>
                             <%= questionario.Data_de_cadastro %>
                         </span>
                     </div>
                     <br>
-
-                    <a type="button" href="/questionarios/<%= questionario.Pergunta %>">Responder
+                    <a type="button" href="/questionarios/<%= questionario.Titulo %>">Responder
                         questionário</a>
                 </div>
-
                 <% } else { %>
                     <div id="location" class="sub">
                         <div>
                             <h2>Titulo</h2>
+                            <span>
+                                <%= questionario.Titulo %>
+                            </span>
+                        </div>
+                        <div>
+                            <h4>Pergunta</h4>
                             <span>
                                 <%= questionario.Pergunta %>
                             </span>
@@ -45,13 +55,13 @@
                             </span>
                         </div>
                         <div>
-                            <h2>Usuario</h2>
+                            <h4>Usuario</h4>
                             <span>
                                 <%= questionario.Usuario %>
                             </span>
                         </div>
                         <div>
-                            <h2>Data de cadastro</h2>
+                            <h4>Data de cadastro</h4>
                             <span>
                                 <%= questionario.Data_de_cadastro %>
                             </span>
@@ -61,19 +71,17 @@
                             </span>
                         </div>
                         <div>
-                            <h2>Localização - Lat e Long</h2>
+                            <h4>Localização - Lat e Long</h4>
                             <span>
                                 <% for (let key in questionario) { %>
                                     <% if (questionario.hasOwnProperty(key)) { %>
                                         <%= questionario[key].Latitude %>
                                             <%= questionario[key].Longitude %>
-
                                                 <%}%>
                                                     <%}%>
                             </span>
                         </div>
                         <br>
-
                     </div>
                     <% } %>
                         <% }) %>

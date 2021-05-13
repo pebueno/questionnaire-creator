@@ -1,30 +1,23 @@
 <%- include("partials/header"); -%>
     <form action="/responder" method="post">
         <h4>
-            <%=title%>?
+            <%=title%>
         </h4>
         <label for="Resposta">Responda a pergunta a cima</label>
         <br>
         <input type="text" name="respostaQuestionario">
         <br>
-        <label for="Local">Sua localização é</label>
-        <br>
+        <!-- <label for="Local">Sua localização é</label>
+        <br> -->
         <input type="hidden" class="address" name="LAT">
         <br>
         <input type="hidden" class="address" name="LONG">
         <p id="demo"></p>
         <br>
-        <input type="hidden" name="perguntaQuestionario" value="<%=title%>">
+        <input type="hidden" name="tituloQuestionario" value="<%=title%>">
         <input type="hidden" value=false name="disponibilidadeQuestionario">
         <button type="submit">Responder questionário</button>
     </form>
-    <p>Digite aqui o restante que precisa...</p>
-    <!-- <div id="main">
-        <div id="location" class="sub">
-            <h2>And you are in...</h2>
-            <div class="address"></div>
-        </div>
-    </div> -->
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
             var address = document.querySelector('.address')
