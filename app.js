@@ -5,21 +5,24 @@ const ejs = require("ejs");
 const envios = [
   {
     Titulo: "Provas de matematica",
-    Pergunta: "Calculo 2 foi dificil?",
+    Pergunta: ["Calculo 2 foi dificil?", "Como foi seu ciclo basico?"],
     Usuario: "Pedro",
     Data_de_cadastro: "12/5/2021, 08:02:05",
     Disponibilidade: true,
   },
   {
     Titulo: "Design UX-UI",
-    Pergunta: "O que fazer para o usuario se sentir confortavel?",
+    Pergunta: ["A interface e responsiva?"],
     Usuario: "Fernanda",
     Data_de_cadastro: "12/5/2021, 08:22:31",
     Disponibilidade: true,
   },
   {
     Titulo: "Versionamento em dia",
-    Pergunta: "Quais sao as melhores praticas para isso?",
+    Pergunta: [
+      "Quais sao as melhores praticas ao versionar seu codigo?",
+      "O que e branch no Git?",
+    ],
     Usuario: "Isabela",
     Data_de_cadastro: "12/5/2021, 08:27:03",
     Disponibilidade: true,
@@ -49,6 +52,7 @@ app.get("/questionarios/:temp", function (req, res) {
     if (tituloArmazenado === tituloRequisitado) {
       res.render("questionario", {
         title: questionario.Titulo,
+        listaDePerguntas: questionario.Pergunta,
       });
     }
   });
@@ -60,13 +64,16 @@ app.get("/criar", function (req, res) {
 
 app.post("/criar", function (req, res) {
   const titulo = req.body.tituloQuestionario;
-  // const pergunta = req.body.perguntaQuestionario;
   const usuario = req.body.usuarioQuestionario;
   const data = new Date().toLocaleString("pt-BR");
-
+  const novasPerguntas = req.body.novaPergunta;
+  var perguntas = [];
+  novasPerguntas.forEach(function (value) {
+    perguntas.push(value);
+  });
   const questionario = {
     Titulo: titulo,
-    // Pergunta: pergunta,
+    Pergunta: perguntas,
     Usuario: usuario,
     Data_de_cadastro: data,
     Disponibilidade: true,
@@ -77,6 +84,7 @@ app.post("/criar", function (req, res) {
   res.redirect("/");
 });
 
+const respostas = [];
 app.post("/responder", function (req, res) {
   const titulo = req.body.tituloQuestionario;
   // const pergunta = req.body.perguntaQuestionario;
@@ -84,10 +92,16 @@ app.post("/responder", function (req, res) {
   const data = new Date().toLocaleString("pt-BR");
   const lat = req.body.LAT;
   const long = req.body.LONG;
+
+  const maisResposta = req.body.novaResposta;
+  respostas.push(maisResposta);
+  var respostasFiltradas = respostas.filter(function (el) {
+    return el != null;
+  });
   // console.log(resposta);
   const questionarioRespondido = {
     Disponibilidade: false,
-    Resposta: resposta,
+    Resposta: resposta || respostasFiltradas,
     Data: data,
     Localizacao: {
       Latitude: lat,

@@ -3,22 +3,29 @@
         <h4>
             <%=title%>
         </h4>
-        <label for="Resposta">Responda a pergunta a cima</label>
-        <br>
-        <input type="text" name="respostaQuestionario">
-        <br>
-        <!-- <label for="Local">Sua localização é</label>
-        <br> -->
-        <input type="hidden" class="address" name="LAT">
-        <br>
-        <input type="hidden" class="address" name="LONG">
-        <p id="demo"></p>
-        <br>
-        <input type="hidden" name="tituloQuestionario" value="<%=title%>">
-        <input type="hidden" value=false name="disponibilidadeQuestionario">
-        <button type="submit">Responder questionário</button>
+        <% for (var i=0; i<listaDePerguntas.length; i++){ %>
+            <div class="pergunta">
+                <label name="<%= listaDePerguntas[i] %>">
+                    <%= listaDePerguntas[i] %>
+                </label>
+                <input type="text" name="novaResposta">
+            </div>
+            <% } %>
+
+                <label for="Resposta">Responda a(s) pergunta(s) a cima</label>
+                <br>
+
+
+
+                <input type="hidden" class="address" name="LAT">
+                <input type="hidden" class="address" name="LONG">
+                <input type="hidden" name="tituloQuestionario" value="<%=title%>">
+                <input type="hidden" value=false name="disponibilidadeQuestionario">
+                <button type="submit">Responder questionário</button>
     </form>
     <script>
+
+
         document.addEventListener("DOMContentLoaded", function (event) {
             var address = document.querySelector('.address')
             if (!navigator.geolocation) {

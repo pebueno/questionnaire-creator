@@ -2,10 +2,20 @@
 
   <body>
     <h4>Crie seu questionário.</h4>
+
+    <br>
     <form action="/criar" method="post">
+      <div class="field_wrapper">
+        <div>
+          <input type="text" name="novaPergunta[]" value="" required />
+          <a href="javascript:void(0);" class="add_button" title="Add field"><button>+</button></a>
+        </div>
+      </div>
+      <br>
+
       <label for="Título">Crie um título</label>
       <br>
-      <input type="text" name="tituloQuestionario">
+      <input type="text" name="tituloQuestionario" required>
       <br>
       <label for="Título">Escolha o usuario</label>
       <br>
@@ -17,5 +27,39 @@
       </select>
       <button type="submit">Criar questionário</button>
     </form>
+
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var maxField = 10; //Input fields increment limitation
+        var addButton = $('.add_button'); //Add button selector
+        var wrapper = $('.field_wrapper'); //Input field wrapper
+        var fieldHTML = '<div><input type="text" name="novaPergunta[]" value=""/><a href="javascript:void(0);" class="remove_button"><button>-</button></a></div>'; //New input field html 
+        var x = 1; //Initial field counter is 1
+
+        //Once add button is clicked
+        $(addButton).click(function () {
+          //Check maximum number of input fields
+          if (x < maxField) {
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+          }
+        });
+
+        //Once remove button is clicked
+        $(wrapper).on('click', '.remove_button', function (e) {
+          e.preventDefault();
+          $(this).parent('div').remove(); //Remove field html
+          x--; //Decrement field counter
+        });
+      });
+    </script>
+    <style>
+      .row {
+        max-width: 80%;
+        margin: 20px auto;
+      }
+    </style>
+
 
     <%- include("partials/footer") -%>
