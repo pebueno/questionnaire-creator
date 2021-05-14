@@ -4,13 +4,13 @@ const ejs = require("ejs");
 
 const envios = [
   {
-    Titulo: "Provas de matematica",
-    Pergunta: ["Calculo 2 foi dificil?", "Como foi seu ciclo basico?"],
+    Titulo: "Plantacao de milho",
+    Pergunta: ["Ja verificou se o milha passa no teste?", "Qual e a extensao do seu milharal?"],
     Usuario: "Pedro",
     Data_de_cadastro: "12/5/2021, 08:02:05",
     Disponibilidade: true,
     Status: "Disponível",
-    Id: "Provasdematematica",
+    Id: "Plantacaodemilho",
     Posicao: 1,
   },
   {
@@ -24,26 +24,26 @@ const envios = [
     Posicao: 2,
   },
   {
-    Titulo: "Versionamento em dia",
+    Titulo: "Gestão de rebanho",
     Pergunta: [
-      "Quais sao as melhores praticas ao versionar seu codigo?",
-      "O que e branch no Git?",
+      "Seu gado tem chip?",
+      "Qual e a quantidade do seu gado?",
     ],
     Usuario: "Isabela",
     Data_de_cadastro: "12/5/2021, 08:27:03",
     Disponibilidade: true,
     Status: "Disponível",
-    Id: "Versionamentoemdia",
+    Id: "Gestãoderebanho",
     Posicao: 3,
   },
   {
-    Titulo: "Prove",
-    Pergunta: ["Calculo 2 foi dificil?", "Como foi seu ciclo basico?"],
+    Titulo: "Extensão territorial",
+    Pergunta: ["Quantos metros quadrados tem sua fazenda?", "Qual é area útil do seu território?"],
     Usuario: "Pedro",
     Data_de_cadastro: "12/5/2021, 08:02:05",
     Disponibilidade: true,
     Status: "Disponível",
-    Id: "Prove",
+    Id: "Extensãoterritorial",
     Posicao: 4,
   },
 ];
@@ -95,7 +95,7 @@ app.post("/criar", function (req, res) {
   const usuario = req.body.usuarioQuestionario;
   const data = new Date().toLocaleString("pt-BR");
   const novasPerguntas = req.body.novaPergunta;
-  var perguntas = [];
+  const perguntas = [];
   novasPerguntas.forEach(function (value) {
     perguntas.push(value);
   });
@@ -114,32 +114,25 @@ app.post("/criar", function (req, res) {
     Disponibilidade: true,
     Status: "Disponível",
   };
-  // const jsonData = JSON.stringify(questionario);
-  // console.log(jsonData);
   console.log(questionario);
   envios.push(questionario);
   res.redirect("/");
 });
 
-const respostas = [];
 app.post("/responder", function (req, res) {
   const titulo = req.body.tituloQuestionario;
-  // const pergunta = req.body.perguntaQuestionario;
-  const resposta = req.body.respostaQuestionario;
   const data = new Date().toLocaleString("pt-BR");
   const lat = req.body.LAT;
   const long = req.body.LONG;
-
-  const maisResposta = req.body.novaResposta;
-  respostas.push(maisResposta);
-  var respostasFiltradas = respostas.filter(function (el) {
-    return el != null;
+  const novasRespostas = req.body.novaResposta;
+  const respostas = [];
+  novasRespostas.forEach(function (value) {
+    respostas.push(value);
   });
-  // console.log(resposta);
   const questionarioRespondido = {
     Disponibilidade: false,
-    Resposta: resposta || respostasFiltradas,
-    Data: data,
+    Resposta: respostas,
+    Data_de_resposta: data,
     Status: "Indisponível",
     Localizacao: {
       Latitude: lat,
@@ -153,7 +146,6 @@ app.post("/responder", function (req, res) {
       envios[index] = newTest;
     }
   }
-  // console.log(envios);
   res.redirect("/");
 });
 let port = 9000

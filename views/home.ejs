@@ -16,16 +16,13 @@
                         </div>
                         <div class="modal-body">
                             <div>
-                                <h4>Pergunta</h4>
-                                <span id="pergunta">
-                                    <%= questionario.Pergunta %>
-
-                                </span>
-                                <script>
-                                    $( ".modal-body div span" ).replaceWith(function() {
-return this.text().replace(/,/g, '<br>');
-}); 
-                                </script>
+                                <h4>Pergunta(s)</h4>
+                                <% for (var i=0; i<questionario.Pergunta.length; i++){ %>
+                                    <span id="pergunta">
+                                        <%= questionario.Pergunta[i] %>
+                                    </span>
+                                    <br>
+                            <% } %>
                             </div>
                             <div>
                                 <h4>Usuario</h4>
@@ -66,14 +63,30 @@ return this.text().replace(/,/g, '<br>');
                             </div>
                             <div class="modal-body">
                                     <div>
-                                        <h4>Pergunta</h4>
-                                        <span>
-                                            <%= questionario.Pergunta %>
-                                        </span>
-                                        <h4>Resposta</h4>
-                                        <span class="usuario">
-                                            <%= questionario.Resposta %>
-                                        </span>
+                                        <h3>Questionario completo</h3>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Pergunta(s)</th>
+                                                <th>Resposta(s)</th>
+                                            </tr>
+                                            </thead>
+                                            <% for (var i=0; i<questionario.Pergunta.length; i++){ %>
+                                            <tbody>
+                                                <tr>
+                                                
+                                                <td>
+                                                    <%= questionario.Pergunta[i] %>
+                                                </td>
+                                                <td>
+                                                    <%= questionario.Resposta[i] %>
+                                                </td>
+                                    </tr>
+                                </tbody>
+
+                                        <% } %>
+                                        </table>
+
                                     </div>
 
                                     <div>
@@ -91,7 +104,7 @@ return this.text().replace(/,/g, '<br>');
                                     <div>
                                         <h4>Data de resposta</h4>
                                         <span>
-                                            <%= questionario.Data %>
+                                            <%= questionario.Data_de_resposta %>
                                         </span>
                                     </div>
                                     <div>
@@ -231,11 +244,6 @@ return this.text().replace(/,/g, '<br>');
                                 }
                             </style>
                                 <script>
-                                        // const q = $(".modal-body div span");
-                                        // q.html(q.text().replace(/,/g, '<br>'));
-// $( "#pergunta" ).replaceWith(function() {
-//     return this.text().replace(/,/g, '<br>');
-// }); 
 
                                     $(document).ready(function () {
                                         $('[data-toggle="tooltip"]').tooltip();
