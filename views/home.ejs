@@ -1,90 +1,244 @@
 <%- include("partials/header") -%>
-
-    <h1>Seja bem vindo!</h1>
-    <br>
-    <a href="/criar">Criar formulario</a>
-
-    <div id="main">
-        <% envios.forEach(function (questionario) { %>
-            <% if (questionario.Disponibilidade===true) {%>
-                <div id="location" class="sub">
-                    <div>
-                        <h2>Titulo</h2>
-                        <span>
-                            <%= questionario.Titulo %>
-                        </span>
-                    </div>
-                    <div>
-                        <h4>Pergunta</h4>
-                        <span>
-                            <%= questionario.Pergunta %>
-                        </span>
-                    </div>
-                    <div>
-                        <h4>Usuario</h4>
-                        <span>
-                            <%= questionario.Usuario %>
-                        </span>
-                    </div>
-                    <div>
-                        <h4>Data de cadastro</h4>
-                        <span>
-                            <%= questionario.Data_de_cadastro %>
-                        </span>
-                    </div>
-                    <br>
-                    <a type="button" href="/questionarios/<%= questionario.Titulo %>">Responder
-                        questionário</a>
-                </div>
-                <% } else { %>
-                    <div id="location" class="sub">
-                        <div>
-                            <h2>Titulo</h2>
-                            <span>
+    <!-- Modal -->
+    <% envios.forEach(function (questionario) { %>
+        <% if (questionario.Disponibilidade===true) {%>
+            <div class="modal fade" id="<%= questionario.Id %>" data-backdrop="static" data-keyboard="false"
+                tabindex="-1" aria-labelledby="<%= questionario.Id %>Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="<%= questionario.Id %>Label">
                                 <%= questionario.Titulo %>
-                            </span>
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <div>
-                            <h4>Pergunta</h4>
-                            <span>
-                                <%= questionario.Pergunta %>
-                            </span>
-                            <h4>Resposta</h4>
-                            <span>
-                                <%= questionario.Resposta %>
-                            </span>
+                        <div class="modal-body">
+                            <div>
+                                <h4>Pergunta</h4>
+                                <span id="pergunta">
+                                    <%= questionario.Pergunta %>
+
+                                </span>
+                                <script>
+                                    $( ".modal-body div span" ).replaceWith(function() {
+return this.text().replace(/,/g, '<br>');
+}); 
+                                </script>
+                            </div>
+                            <div>
+                                <h4>Usuario</h4>
+                                <span>
+                                    <%= questionario.Usuario %>
+                                </span>
+                            </div>
+                            <div>
+                                <h4>Data de cadastro</h4>
+                                <span>
+                                    <%= questionario.Data_de_cadastro %>
+                                </span>
+                            </div>
+                            <br>
+
                         </div>
-                        <div>
-                            <h4>Usuario</h4>
-                            <span>
-                                <%= questionario.Usuario %>
-                            </span>
+                        <div class="modal-footer">
+                            <a type="button" class="btn btn-primary"
+                                href="/questionarios/<%= questionario.Titulo %>">Responder</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                         </div>
-                        <div>
-                            <h4>Data de cadastro</h4>
-                            <span>
-                                <%= questionario.Data_de_cadastro %>
-                            </span>
-                            <h4>Data de resposta</h4>
-                            <span>
-                                <%= questionario.Data %>
-                            </span>
+                    </div>
+                </div>
+            </div>
+            <% } else { %>
+                <div class="modal fade" id="<%= questionario.Id %>" data-backdrop="static" data-keyboard="false"
+                    tabindex="-1" aria-labelledby="<%= questionario.Id %>Label" aria-hidden="true">
+                    <div class="modal-dialog modal-login">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="<%= questionario.Id %>Label">
+                                    <%= questionario.Titulo %>
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                    <div>
+                                        <h4>Pergunta</h4>
+                                        <span>
+                                            <%= questionario.Pergunta %>
+                                        </span>
+                                        <h4>Resposta</h4>
+                                        <span class="usuario">
+                                            <%= questionario.Resposta %>
+                                        </span>
+                                    </div>
+
+                                    <div>
+                                        <h4>Usuario</h4>
+                                        <span>
+                                            <%= questionario.Usuario %>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h4>Data de cadastro</h4>
+                                        <span>
+                                            <%= questionario.Data_de_cadastro %>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h4>Data de resposta</h4>
+                                        <span>
+                                            <%= questionario.Data %>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h5>Localização - Lat e Long</h5>
+                                        <span>
+                                            <% for (let key in questionario) { %>
+                                                <% if (questionario.hasOwnProperty(key)) { %>
+                                                    <%= questionario[key].Latitude %>
+                                                        <%= questionario[key].Longitude %>
+                                                            <%}%>
+                                                                <%}%>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h4>Localização - Lat e Long</h4>
-                            <span>
-                                <% for (let key in questionario) { %>
-                                    <% if (questionario.hasOwnProperty(key)) { %>
-                                        <%= questionario[key].Latitude %>
-                                            <%= questionario[key].Longitude %>
-                                                <%}%>
-                                                    <%}%>
-                            </span>
-                        </div>
-                        <br>
                     </div>
                     <% } %>
                         <% }) %>
-    </div>
 
-    <%- include("partials/footer") -%>
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <h2>Cadastro de <b>Questionários</b></h2>
+                        </div>
+                        <div class="col-sm-7">
+                            <a href="/criar" class="btn btn-secondary"><i class="material-icons">&#xE147;</i>
+                                <span>Adicionar
+                                    novo
+                                    Questionário</span></a>
+                            <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Exportar
+                                    para o
+                                    Excel</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Título</th>
+                            <th>Data de cadastro</th>
+                            <th>Usuario</th>
+                            <th>Status</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% envios.forEach(function (questionario) { %>
+                            <% if (questionario.Disponibilidade===true) {%>
+                                <tr>
+                                    <td>
+                                        <%= questionario.Posicao %>
+                                    </td>
+                                    <td><a href="#">
+                                            <%= questionario.Titulo %>
+                                        </a></td>
+                                    <td>
+                                        <%= questionario.Data_de_cadastro %>
+                                    </td>
+                                    <td>
+                                        <%= questionario.Usuario %>
+                                    </td>
+                                    <td><span class="status text-success">&bull;</span>
+                                        <%= questionario.Status %>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
+                                                class="material-icons" data-toggle="modal"
+                                                data-target="#<%= questionario.Id %>">&#xE8B8;</i></a>
+                                        <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
+                                                class="material-icons">&#xE5C9;</i></a>
+                                    </td>
+                                </tr>
+                                <% } else { %>
+                                    <tr>
+                                        <td>
+                                            <%= questionario.Posicao %>
+                                        </td>
+                                        <td><a href="#">
+                                                <%= questionario.Titulo %>
+                                            </a></td>
+                                        <td>
+                                            <%= questionario.Data_de_cadastro %>
+                                        </td>
+                                        <td>
+                                            <%= questionario.Usuario %>
+                                        </td>
+                                        <td><span class="status text-danger">&bull;</span>
+                                            <%= questionario.Status %>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i
+                                                    class="material-icons" data-toggle="modal"
+                                                    data-target="#<%= questionario.Id %>">&#xE8B8;</i></a>
+                                            <a href="#" class="delete" title="Delete" data-toggle="tooltip"><i
+                                                    class="material-icons">&#xE5C9;</i></a>
+                                        </td>
+                                    </tr>
+
+                                    <% } %>
+                                        <% }) %>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">Mostrando um total de <b>
+                            <%= total %>
+                        </b> questionários</div>
+                    <ul class="pagination">
+                        <li class="page-item disabled"><a href="#">Previous</a></li>
+                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                        <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+                            <style>
+                                .modal-body div {
+                                    padding-bottom: 25px;
+                                }
+
+                                .modal-title {
+                                    text-align: center;
+                                    font-size: 25px;
+                                }
+                            </style>
+                                <script>
+                                        // const q = $(".modal-body div span");
+                                        // q.html(q.text().replace(/,/g, '<br>'));
+// $( "#pergunta" ).replaceWith(function() {
+//     return this.text().replace(/,/g, '<br>');
+// }); 
+
+                                    $(document).ready(function () {
+                                        $('[data-toggle="tooltip"]').tooltip();
+                                    });
+                                </script>
+                                <%- include("partials/footer") -%>

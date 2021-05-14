@@ -1,31 +1,41 @@
 <%- include("partials/header"); -%>
-    <form action="/responder" method="post">
-        <h4>
-            <%=title%>
-        </h4>
-        <% for (var i=0; i<listaDePerguntas.length; i++){ %>
-            <div class="pergunta">
-                <label name="<%= listaDePerguntas[i] %>">
-                    <%= listaDePerguntas[i] %>
-                </label>
-                <input type="text" name="novaResposta">
-            </div>
-            <% } %>
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <form action="/responder" method="post">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <%=title%>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <label for="Resposta">Complete o questionário respondendo a(s) pergunta(s) abaixo:</label>
+                    <br>
+                    <% for (var i=0; i<listaDePerguntas.length; i++){ %>
+                        <br>
+                        <div class="form-group">
+                            <label name="<%= listaDePerguntas[i] %>">
+                                <%= listaDePerguntas[i] %>
+                            </label>
+                            <input type="text" name="novaResposta" class="form-control" required="required">
+                        </div>
+                        <% } %>
 
-                <label for="Resposta">Responda a(s) pergunta(s) a cima</label>
-                <br>
-
-
+                </div>
 
                 <input type="hidden" class="address" name="LAT">
                 <input type="hidden" class="address" name="LONG">
                 <input type="hidden" name="tituloQuestionario" value="<%=title%>">
                 <input type="hidden" value=false name="disponibilidadeQuestionario">
-                <button type="submit">Responder questionário</button>
-    </form>
+                <div class="modal-footer justify-content-between">
+                    <input type="submit" class="btn btn-primary" value="Responder questionário">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <script>
-
-
         document.addEventListener("DOMContentLoaded", function (event) {
             var address = document.querySelector('.address')
             if (!navigator.geolocation) {

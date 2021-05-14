@@ -9,6 +9,9 @@ const envios = [
     Usuario: "Pedro",
     Data_de_cadastro: "12/5/2021, 08:02:05",
     Disponibilidade: true,
+    Status: "Disponível",
+    Id: "Provasdematematica",
+    Posicao: 1,
   },
   {
     Titulo: "Design UX-UI",
@@ -16,6 +19,9 @@ const envios = [
     Usuario: "Fernanda",
     Data_de_cadastro: "12/5/2021, 08:22:31",
     Disponibilidade: true,
+    Status: "Disponível",
+    Id: "DesignUX-UI",
+    Posicao: 2,
   },
   {
     Titulo: "Versionamento em dia",
@@ -26,6 +32,19 @@ const envios = [
     Usuario: "Isabela",
     Data_de_cadastro: "12/5/2021, 08:27:03",
     Disponibilidade: true,
+    Status: "Disponível",
+    Id: "Versionamentoemdia",
+    Posicao: 3,
+  },
+  {
+    Titulo: "Prove",
+    Pergunta: ["Calculo 2 foi dificil?", "Como foi seu ciclo basico?"],
+    Usuario: "Pedro",
+    Data_de_cadastro: "12/5/2021, 08:02:05",
+    Disponibilidade: true,
+    Status: "Disponível",
+    Id: "Prove",
+    Posicao: 4,
   },
 ];
 
@@ -35,8 +54,10 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", function (req, res) {
+const totalQuestionarios = envios.length;
   res.render("home", {
     envios: envios,
+    total: totalQuestionarios,
   });
 });
 
@@ -62,6 +83,13 @@ app.get("/criar", function (req, res) {
   res.render("criar");
 });
 
+function removeSpaces(text) {
+  originalText = text;
+  newText = originalText.replace(/ /g, "");
+  return newText;
+}
+
+
 app.post("/criar", function (req, res) {
   const titulo = req.body.tituloQuestionario;
   const usuario = req.body.usuarioQuestionario;
@@ -71,15 +99,24 @@ app.post("/criar", function (req, res) {
   novasPerguntas.forEach(function (value) {
     perguntas.push(value);
   });
+  const id = removeSpaces(req.body.tituloQuestionario);
+  let counter = 1;
+  for (let i = 0; i < envios.length; i++) {
+    if (envios[i].status === "Disponível" || "Indisponível") counter++;
+  }
   const questionario = {
     Titulo: titulo,
     Pergunta: perguntas,
     Usuario: usuario,
+    Id: id,
+    Posicao: counter,
     Data_de_cadastro: data,
     Disponibilidade: true,
+    Status: "Disponível",
   };
-  const jsonData = JSON.stringify(questionario);
-  console.log(jsonData);
+  // const jsonData = JSON.stringify(questionario);
+  // console.log(jsonData);
+  console.log(questionario);
   envios.push(questionario);
   res.redirect("/");
 });
@@ -103,6 +140,7 @@ app.post("/responder", function (req, res) {
     Disponibilidade: false,
     Resposta: resposta || respostasFiltradas,
     Data: data,
+    Status: "Indisponível",
     Localizacao: {
       Latitude: lat,
       Longitude: long,
@@ -118,7 +156,8 @@ app.post("/responder", function (req, res) {
   // console.log(envios);
   res.redirect("/");
 });
+let port = 9000
 
-app.listen(3000, function () {
-  console.log("Servidor rodando em http://localhost:3000");
+app.listen(port, function () {
+  console.log("Servidor rodando em http://localhost:" + port);
 });
