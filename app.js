@@ -5,7 +5,7 @@ const ejs = require("ejs");
 const envios = [
   {
     Titulo: "Plantacao de milho",
-    Pergunta: ["Ja verificou se o milha passa no teste?", "Qual e a extensao do seu milharal?"],
+    Pergunta: ["Ja verificou se o milho passa no teste?", "Qual e a extensao do seu milharal?"],
     Usuario: "Pedro",
     Data_de_cadastro: "12/5/2021, 08:02:05",
     Disponibilidade: true,
@@ -27,7 +27,9 @@ const envios = [
     Titulo: "Gestão de rebanho",
     Pergunta: [
       "Seu gado tem chip?",
-      "Qual e a quantidade do seu gado?",
+      "Seu rebanho já teve febre aftosa?",
+      "Seu rebanho já foi vacinado?",
+      "Qual a média de kilos do seu rebanho?",
     ],
     Usuario: "Isabela",
     Data_de_cadastro: "12/5/2021, 08:27:03",
